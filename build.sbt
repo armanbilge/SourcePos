@@ -2,7 +2,7 @@
 // Our Scala versions.
 lazy val `scala-2.12`     = "2.12.14"
 lazy val `scala-2.13`     = "2.13.6"
-lazy val `scala-3.0`      = "3.0.1"
+lazy val `scala-3.0`      = "3.1.3"
 
 // Publishing
 ThisBuild / organization := "org.tpolecat"
@@ -23,9 +23,9 @@ lazy val root = project
     Compile / unmanagedSourceDirectories := Seq.empty,
     Test / unmanagedSourceDirectories := Seq.empty,
   )
-  .aggregate(sourcepos.jvm, sourcepos.js)
+  .aggregate(sourcepos.jvm, sourcepos.js, sourcepos.native)
 
-lazy val sourcepos = crossProject(JVMPlatform, JSPlatform)
+lazy val sourcepos = crossProject(JVMPlatform, JSPlatform, NativePlatform)
   .crossType(CrossType.Pure)
   .in(file("."))
   .enablePlugins(AutomateHeaderPlugin)
@@ -51,7 +51,7 @@ lazy val sourcepos = crossProject(JVMPlatform, JSPlatform)
     ),
 
     // MUnit
-    libraryDependencies += "org.scalameta" %%% "munit" % "0.7.28" % Test,
+    libraryDependencies += "org.scalameta" %%% "munit" % "1.0.0-M6" % Test,
     testFrameworks += new TestFramework("munit.Framework"),
 
     // Scala 2 needs scala-reflect
